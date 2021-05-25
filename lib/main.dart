@@ -62,6 +62,14 @@ class _QuizzPageStatus extends State<QuizPage> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        Text(
+          quizBrain.getPercetage(),
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 10.0,
+            color: Colors.white,
+          ),
+        ),
         Expanded(
           flex: 5,
           child: Padding(
