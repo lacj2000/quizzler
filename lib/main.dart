@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quizzler/quiz_brain.dart';
 
 void main() {
   runApp(Quizzler());
@@ -22,17 +23,37 @@ class QuizPage extends StatefulWidget {
   _QuizzPageStatus createState() => _QuizzPageStatus();
 }
 
+QuizBrain quizBrain = QuizBrain();
+
 class _QuizzPageStatus extends State<QuizPage> {
   List<Icon> scoreKeeper = [];
 
-  void addScore(bool score) {
-    Icon icon;
-    if (score) {
-      icon = Icon(Icons.check, color: Colors.green);
-    } else {
-      icon = Icon(Icons.close, color: Colors.red);
-    }
-    setState(() => {scoreKeeper.add(icon)});
+  void checkAnswer(int userAnswer) {
+    bool correctAnswer = quizBrain.getCorrectAwnser();
+    bool maybe = (userAnswer == 2);
+    bool userPickedAnswer = (!maybe && userAnswer == 1);
+
+    setState(() {
+      if (quizBrain.isFinished() == false) {
+        if (userPickedAnswer == correctAnswer) {
+          scoreKeeper.add(Icon(Icons.check, color: Colors.green));
+        } else if (maybe) {
+          scoreKeeper.add(Icon(
+            Icons.beach_access,
+            color: Colors.yellow,
+          ));
+        } else {
+          scoreKeeper.add(Icon(
+            Icons.close,
+            color: Colors.red,
+          ));
+        }
+        quizBrain.nextQuestion();
+      } else {
+        quizBrain.reset();
+        scoreKeeper = [];
+      }
+    });
   }
 
   @override
@@ -47,7 +68,7 @@ class _QuizzPageStatus extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                "Aqui é o local onde ficará o texto da pergunta!",
+                quizBrain.getText(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -71,7 +92,7 @@ class _QuizzPageStatus extends State<QuizPage> {
                   fontSize: 20.0,
                 ),
               ),
-              onPressed: () => {addScore(true)},
+              onPressed: () => {checkAnswer(1)},
             ),
           ),
         ),
@@ -89,7 +110,25 @@ class _QuizzPageStatus extends State<QuizPage> {
                   fontSize: 20.0,
                 ),
               ),
-              onPressed: () => {addScore(false)},
+              onPressed: () => {checkAnswer(0)},
+            ),
+          ),
+        ),
+        Expanded(
+          child: Padding(
+            padding: EdgeInsets.all(15.0),
+            child: TextButton(
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.yellow,
+              ),
+              child: Text(
+                "Talvez",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20.0,
+                ),
+              ),
+              onPressed: () => {checkAnswer(2)},
             ),
           ),
         ),
