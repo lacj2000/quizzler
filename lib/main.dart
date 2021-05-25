@@ -42,13 +42,15 @@ class _QuizzPageStatus extends State<QuizPage> {
       },
     );
 
-    AlertDialog alerta = AlertDialog(
-      title: Text("Boa Partida!"),
-      content: Text(quizBrain.getPercetage()),
-      actions: [
-        okButton,
-      ],
-    );
+    AlertDialog alerta(String percentage) {
+      return AlertDialog(
+        title: Text("Boa Partida!"),
+        content: Text(percentage),
+        actions: [
+          okButton,
+        ],
+      );
+    }
 
     setState(() {
       if (quizBrain.isFinished() == false) {
@@ -70,7 +72,7 @@ class _QuizzPageStatus extends State<QuizPage> {
           showDialog(
             context: context,
             builder: (BuildContext context) {
-              return alerta;
+              return alerta(quizBrain.getPercetage());
             },
           );
         }
