@@ -33,25 +33,44 @@ class _QuizzPageStatus extends State<QuizPage> {
     bool maybe = (userAnswer == 2);
     bool userPickedAnswer = (!maybe && userAnswer == 1);
 
+    Widget okButton = TextButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    AlertDialog alerta = AlertDialog(
+      title: Text("Boa Partida!"),
+      content: Text(quizBrain.getPercetage()),
+      actions: [
+        okButton,
+      ],
+    );
+
     setState(() {
-      if (quizBrain.isFinished() == false) {
-        if (userPickedAnswer == correctAnswer) {
-          scoreKeeper.add(Icon(Icons.check, color: Colors.green));
-        } else if (maybe) {
-          scoreKeeper.add(Icon(
-            Icons.beach_access,
-            color: Colors.yellow,
-          ));
-        } else {
-          scoreKeeper.add(Icon(
-            Icons.close,
-            color: Colors.red,
-          ));
-        }
-        quizBrain.nextQuestion(userPickedAnswer == correctAnswer);
+      if (userPickedAnswer == correctAnswer) {
+        scoreKeeper.add(Icon(Icons.check, color: Colors.green));
+      } else if (maybe) {
+        scoreKeeper.add(Icon(
+          Icons.beach_access,
+          color: Colors.yellow,
+        ));
       } else {
-        quizBrain.reset();
+        scoreKeeper.add(Icon(
+          Icons.close,
+          color: Colors.red,
+        ));
+      }
+      quizBrain.nextQuestion(userPickedAnswer == correctAnswer);
+      if (quizBrain.isFinished() == true) {
         scoreKeeper = [];
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return alerta;
+          },
+        );
       }
     });
   }
