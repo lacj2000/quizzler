@@ -23,6 +23,8 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizzPageStatus extends State<QuizPage> {
+  List<Icon> scoreKeeper = [];
+  
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -80,6 +82,10 @@ class _QuizzPageStatus extends State<QuizPage> {
               onPressed: () => {},
             ),
           ),
+        ),
+        Row(
+          children: ,
+          ],
         ),
       ],
     );
