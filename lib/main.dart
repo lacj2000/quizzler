@@ -37,6 +37,8 @@ class _QuizzPageStatus extends State<QuizPage> {
       child: Text("OK"),
       onPressed: () {
         Navigator.of(context).pop();
+        scoreKeeper = [];
+        quizBrain.reset();
       },
     );
 
@@ -49,28 +51,29 @@ class _QuizzPageStatus extends State<QuizPage> {
     );
 
     setState(() {
-      if (userPickedAnswer == correctAnswer) {
-        scoreKeeper.add(Icon(Icons.check, color: Colors.green));
-      } else if (maybe) {
-        scoreKeeper.add(Icon(
-          Icons.beach_access,
-          color: Colors.yellow,
-        ));
-      } else {
-        scoreKeeper.add(Icon(
-          Icons.close,
-          color: Colors.red,
-        ));
-      }
-      quizBrain.nextQuestion(userPickedAnswer == correctAnswer);
-      if (quizBrain.isFinished() == true) {
-        scoreKeeper = [];
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return alerta;
-          },
-        );
+      if (quizBrain.isFinished() == false) {
+        if (userPickedAnswer == correctAnswer) {
+          scoreKeeper.add(Icon(Icons.check, color: Colors.green));
+        } else if (maybe) {
+          scoreKeeper.add(Icon(
+            Icons.beach_access,
+            color: Colors.yellow,
+          ));
+        } else {
+          scoreKeeper.add(Icon(
+            Icons.close,
+            color: Colors.red,
+          ));
+        }
+        quizBrain.nextQuestion(userPickedAnswer == correctAnswer);
+        if (quizBrain.isFinished() == true) {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return alerta;
+            },
+          );
+        }
       }
     });
   }

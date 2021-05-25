@@ -5,6 +5,7 @@ class QuizBrain {
   int questionNumber = 0;
   int hit = 0;
   double hitPercentage = 0;
+  bool end = false;
 
   List<Question> _questionBank = [
     Question(
@@ -28,7 +29,9 @@ class QuizBrain {
     questionNumber++;
     calculatePercentage();
 
-    if (_questionNumber < _questionBank.length) {
+    if (questionNumber == _questionBank.length) {
+      end = true;
+    } else if (_questionNumber < _questionBank.length - 1) {
       _questionNumber++;
     }
   }
@@ -50,10 +53,7 @@ class QuizBrain {
   }
 
   bool isFinished() {
-    if (_questionNumber == _questionBank.length - 1) {
-      return true;
-    }
-    return false;
+    return end;
   }
 
   void reset() {
@@ -61,5 +61,6 @@ class QuizBrain {
     questionNumber = 0;
     hit = 0;
     hitPercentage = 0.0;
+    end = false;
   }
 }
