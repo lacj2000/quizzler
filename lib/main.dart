@@ -48,7 +48,7 @@ class _QuizzPageStatus extends State<QuizPage> {
             color: Colors.red,
           ));
         }
-        quizBrain.nextQuestion();
+        quizBrain.nextQuestion(userPickedAnswer == correctAnswer);
       } else {
         quizBrain.reset();
         scoreKeeper = [];

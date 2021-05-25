@@ -2,6 +2,8 @@ import 'package:quizzler/question.dart';
 
 class QuizBrain {
   int _questionNumber = 0;
+  int hit = 0;
+  double hitPercentage = 0;
 
   List<Question> _questionBank = [
     Question(
@@ -18,10 +20,19 @@ class QuizBrain {
     ),
   ];
 
-  void nextQuestion() {
+  void nextQuestion(bool h) {
+    if (h) {
+      hit++;
+      calculatePercentage();
+    }
+
     if (_questionNumber < _questionBank.length - 1) {
       _questionNumber++;
     }
+  }
+
+  void calculatePercentage() {
+    hitPercentage = hit / _questionNumber;
   }
 
   String getText() {
