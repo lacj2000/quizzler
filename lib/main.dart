@@ -24,7 +24,17 @@ class QuizPage extends StatefulWidget {
 
 class _QuizzPageStatus extends State<QuizPage> {
   List<Icon> scoreKeeper = [];
-  
+
+  void addScore(bool score) {
+    Icon icon;
+    if (score) {
+      icon = Icon(Icons.check, color: Colors.green);
+    } else {
+      icon = Icon(Icons.close, color: Colors.red);
+    }
+    setState(() => {scoreKeeper.add(icon)});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -61,7 +71,7 @@ class _QuizzPageStatus extends State<QuizPage> {
                   fontSize: 20.0,
                 ),
               ),
-              onPressed: () {},
+              onPressed: () => {addScore(true)},
             ),
           ),
         ),
@@ -79,13 +89,12 @@ class _QuizzPageStatus extends State<QuizPage> {
                   fontSize: 20.0,
                 ),
               ),
-              onPressed: () => {},
+              onPressed: () => {addScore(false)},
             ),
           ),
         ),
         Row(
-          children: ,
-          ],
+          children: scoreKeeper,
         ),
       ],
     );
